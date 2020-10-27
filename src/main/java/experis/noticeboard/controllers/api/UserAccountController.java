@@ -1,4 +1,4 @@
-package experis.noticeboard.controllers;
+package experis.noticeboard.controllers.api;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class UserAccountController {
     @Autowired
     private UserAccountRepository userRepository;
 
-    @GetMapping("/api/useraccount/{id}") 
+    @GetMapping("/api/fetch/useraccount/{id}") 
     public ResponseEntity<UserAccount> getUserById(HttpServletRequest request, @PathVariable Integer id) {
         UserAccount user;
         HttpStatus response;
@@ -42,7 +42,7 @@ public class UserAccountController {
         return new ResponseEntity<>(user, response);
     }
 
-    @GetMapping("/api/useraccount")
+    @GetMapping("/api/fetch/useraccount/all")
     public ResponseEntity<ArrayList<UserAccount>> getAllUsers(HttpServletRequest request) {
         ArrayList<UserAccount> users = new ArrayList<UserAccount>();
         HttpStatus response;
@@ -54,7 +54,7 @@ public class UserAccountController {
         return new ResponseEntity<>(users, response);
     }
 
-    @PostMapping("/api/useraccount")
+    @PostMapping("/api/create/useraccount")
     public ResponseEntity<UserAccount> addUser(HttpServletRequest request, @RequestBody UserAccount newUser) {
         newUser = userRepository.save(newUser);
         System.out.println("New user with id: " + newUser.getId() + " added");
@@ -62,7 +62,7 @@ public class UserAccountController {
         return new ResponseEntity<>(newUser, response);
     }
 
-    @PatchMapping("/api/useraccount/{id}")
+    @PatchMapping("/api/update/useraccount/{id}")
     public ResponseEntity<UserAccount> updateUser(HttpServletRequest request, @RequestBody UserAccount newUser, @PathVariable Integer id) {
         UserAccount user;
         HttpStatus response;
@@ -88,7 +88,7 @@ public class UserAccountController {
         return new ResponseEntity<>(user, response);
     }
 
-    @DeleteMapping("/api/useraccount/{id}")
+    @DeleteMapping("/api/delete/useraccount/{id}")
     public ResponseEntity<String> deteleUser(HttpServletRequest request, @PathVariable Integer id) {
         String message = "";
         HttpStatus response;

@@ -13,20 +13,23 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(
     generator = ObjectIdGenerators.PropertyGenerator.class,
     property = "id")
-public class UserAccount {
-
+public class Comment {
+ 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    private String username;
-    
-    @Column(nullable = false)
-    private String password;
+    @Column
+    private String message;
 
-    public UserAccount() {
-        
+    @Column
+    private Integer postId;
+
+    @Column
+    private Integer userAccountId;
+
+    public Comment() {
+
     }
 
     public Integer getId() {
@@ -37,22 +40,28 @@ public class UserAccount {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getMessage() {
+        return message;
     }
 
-    public void setUsername(String userame) {
-        this.username = userame;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getPassword() {
-        return password;
+    public Integer getPostId() {
+        return postId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPostId(Integer postId) {
+        this.postId = postId;
     }
 
+    public Integer getUserAccountId() {
+        return userAccountId;
+    }
 
-
+    public void setUserAccountId(Integer userAccountId) {
+        this.userAccountId = userAccountId;
+    }
+    
 }

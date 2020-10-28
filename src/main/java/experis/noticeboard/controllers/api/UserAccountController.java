@@ -108,18 +108,21 @@ public class UserAccountController {
 
         if (userRepository.existsById(id)) {
             UserAccount user = userRepository.findById(id).get();
-            Collection<Comment> comments = user.getComments();
-            for (Comment comment : comments) {
-                commentRepository.delete(comment);
-            }
-            comments.clear();
             Collection<Post> posts = user.getPosts();
             for (Post post : posts) {
-                comments = post.getComments();
-                commentRepository.deleteInBatch(comments);
-                PostRepository.delete(post);
+                Collection<Comment> comments = post.getComments();
+                for (Comment comment : comments) {
+                    comment.getUserAccount().getComments().remove(comment);
+                    comment.getPost().getComments().remove(comment);
+                }
             }
-            posts.clear();
+            Collection<Comment> comments = user.getComments();
+            for (Comment comment : comments) {
+                comment.getUserAccount().getComments().remove(comment);
+                comment.getPost().getComments().remove(comment);
+            }
+            user.getComments().clear();
+            user.getPosts().clear();
             userRepository.deleteById(id);
             System.out.println("Deleted user with id: " + id);
             message = "SUCCESS";

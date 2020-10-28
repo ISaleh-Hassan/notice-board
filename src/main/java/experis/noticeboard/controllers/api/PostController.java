@@ -113,10 +113,8 @@ public class PostController {
             Collection<Comment> comments = post.getComments();
             for (Comment comment : comments) {
                 comment.getUserAccount().getComments().remove(comment);
-                comment.getPost().getComments().remove(comment);
-                commentRepository.deleteById(comment.getId());
-            }
-            comments.removeAll(comments);
+            }    
+            comments.clear();     
             post.getUserAccount().getPosts().remove(post);
             postRepository.deleteById(id);
             System.out.println("Deleted post with id: " + id);

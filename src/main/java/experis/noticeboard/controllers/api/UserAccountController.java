@@ -1,6 +1,7 @@
 package experis.noticeboard.controllers.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import experis.noticeboard.models.Comment;
+import experis.noticeboard.models.Post;
 import experis.noticeboard.models.UserAccount;
+import experis.noticeboard.repositories.CommentRepository;
+import experis.noticeboard.repositories.PostRepository;
 import experis.noticeboard.repositories.UserAccountRepository;
 
 @RestController
@@ -23,6 +28,11 @@ public class UserAccountController {
     
     @Autowired
     private UserAccountRepository userRepository;
+    @Autowired
+    private PostRepository PostRepository;
+    @Autowired
+    private CommentRepository commentRepository;
+
 
     @GetMapping("/api/fetch/useraccount/{id}") 
     public ResponseEntity<UserAccount> getUserById(HttpServletRequest request, @PathVariable Integer id) {
@@ -76,6 +86,9 @@ public class UserAccountController {
             if (newUser.getPassword() != null) {
                 user.setPassword(newUser.getPassword());
             }
+            if (newUser.getPosts() != null) {
+                user.setPosts(newUser.getPosts());
+            }
 
             userRepository.save(user);
             response = HttpStatus.OK;
@@ -94,6 +107,19 @@ public class UserAccountController {
         HttpStatus response;
 
         if (userRepository.existsById(id)) {
+            UserAccount user = userRepository.findById(id).get();
+            Collection<Comment> comments = user.getComments();
+            for (Comment comment : comments) {
+                commentRepository.delete(comment);
+            }
+            comments.clear();
+            Collection<Post> posts = user.getPosts();
+            for (Post post : posts) {
+                comments = post.getComments();
+                commentRepository.deleteInBatch(comments);
+                PostRepository.delete(post);
+            }
+            posts.clear();
             userRepository.deleteById(id);
             System.out.println("Deleted user with id: " + id);
             message = "SUCCESS";

@@ -1,13 +1,19 @@
 package experis.noticeboard.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 
 @Entity
 @JsonIdentityInfo(
@@ -24,9 +30,20 @@ public class UserAccount {
     
     @Column(nullable = false)
     private String password;
+   
+    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL) 
+    private Collection<Post> posts = new ArrayList<Post>();
+
+    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL)
+    private Collection<Comment> comments = new ArrayList<Comment>();
 
     public UserAccount() {
         
+    }
+
+    public UserAccount(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -51,6 +68,22 @@ public class UserAccount {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Collection<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Collection<Post> posts) {
+        this.posts = posts;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
     }
 
 

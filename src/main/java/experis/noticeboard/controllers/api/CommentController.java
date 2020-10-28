@@ -16,13 +16,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import experis.noticeboard.models.Comment;
+import experis.noticeboard.models.Post;
+import experis.noticeboard.models.UserAccount;
 import experis.noticeboard.repositories.CommentRepository;
+import experis.noticeboard.repositories.PostRepository;
+import experis.noticeboard.repositories.UserAccountRepository;
 
 
 @RestController
 public class CommentController {
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    UserAccountRepository userRepository;
+    @Autowired
+    PostRepository postRepositroy;
 
     @GetMapping("/api/fetch/comment/{id}") 
     public ResponseEntity<Comment> getCommentById(HttpServletRequest request, @PathVariable Integer id) {
@@ -54,11 +62,24 @@ public class CommentController {
         return new ResponseEntity<>(comments, response);
     }
 
-    @PostMapping("/api/create/comment")
-    public ResponseEntity<Comment> addComment(HttpServletRequest request, @RequestBody Comment newComment) {
-        newComment = commentRepository.save(newComment);
-        System.out.println("New comment with id: " + newComment.getId() + " added");
-        HttpStatus response = HttpStatus.CREATED;
+    @PostMapping("/api/create/comment/{userId}/{postId}")
+    public ResponseEntity<Comment> addComment(HttpServletRequest request, @RequestBody Comment newComment, @PathVariable Integer userId, @PathVariable Integer postId) {
+        HttpStatus response;
+        if (userRepository.existsById(userId) && postRepositroy.existsById(postId)) {
+            UserAccount user = userRepository.findById(userId).get();
+            Post post = postRepositroy.findById(postId).get();
+            newComment.setUserAccount(user);
+            newComment.setPost(post);
+            post.getComments().add(newComment);
+            user.getComments().add(newComment);
+            newComment = commentRepository.save(newComment);
+            System.out.println("New comment with id: " + newComment.getId() + " added");
+            response = HttpStatus.CREATED;
+        } else {
+            System.out.println("Could not find user with id: " + userId + " or post with id: " + postId);
+            response = HttpStatus.NOT_FOUND;
+            newComment = null;
+        }
         return new ResponseEntity<>(newComment, response);
     }
 
@@ -73,13 +94,6 @@ public class CommentController {
             if (newComment.getMessage() != null) {
                 comment.setMessage(newComment.getMessage());
             }
-            if (newComment.getPostId() != null) {
-                comment.setPostId(newComment.getPostId());
-            }
-            if (newComment.getUserAccountId() != null) {
-                comment.setUserAccountId(newComment.getUserAccountId());
-            }
-
             commentRepository.save(comment);
             response = HttpStatus.OK;
             System.out.println("Updated comment with id: " + comment.getId());
@@ -97,6 +111,9 @@ public class CommentController {
         HttpStatus response;
 
         if (commentRepository.existsById(id)) {
+            Comment comment = commentRepository.findById(id).get();
+            comment.getPost().getComments().remove(comment);
+            comment.getUserAccount().getComments().remove(comment);
             commentRepository.deleteById(id);
             System.out.println("Deleted comment with id: " + id);
             message = "SUCCESS";

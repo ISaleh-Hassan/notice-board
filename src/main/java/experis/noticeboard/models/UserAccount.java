@@ -25,10 +25,6 @@ public class UserAccount {
     @Column(nullable = false)
     private String password;
 
-
-    @Column(nullable = false)
-    private String name;
-
     public UserAccount() {
         
     }
@@ -57,11 +53,4 @@ public class UserAccount {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

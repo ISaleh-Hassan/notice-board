@@ -7,13 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import experis.noticeboard.models.Post;
 import experis.noticeboard.repositories.PostRepository;
@@ -22,7 +16,7 @@ import experis.noticeboard.repositories.PostRepository;
 public class PostController {
     @Autowired
     PostRepository postRepository;
-
+    @CrossOrigin()
     @GetMapping("/api/fetch/post/{id}") 
     public ResponseEntity<Post> getPostById(HttpServletRequest request, @PathVariable Integer id) {
         Post post;
@@ -40,7 +34,7 @@ public class PostController {
 
         return new ResponseEntity<>(post, response);
     }
-
+    @CrossOrigin()
     @GetMapping("/api/fetch/post/all")
     public ResponseEntity<ArrayList<Post>> getAllPosts(HttpServletRequest request) {
         ArrayList<Post> posts = new ArrayList<Post>();
@@ -52,7 +46,7 @@ public class PostController {
 
         return new ResponseEntity<>(posts, response);
     }
-
+    @CrossOrigin()
     @PostMapping("/api/create/post")
     public ResponseEntity<Post> addPost(HttpServletRequest request, @RequestBody Post newPost) {
         newPost = postRepository.save(newPost);
@@ -60,7 +54,7 @@ public class PostController {
         HttpStatus response = HttpStatus.CREATED;
         return new ResponseEntity<>(newPost, response);
     }
-
+    @CrossOrigin()
     @PatchMapping("/api/update/post/{id}")
     public ResponseEntity<Post> updatePost(HttpServletRequest request, @RequestBody Post newPost, @PathVariable Integer id) {
         Post post;
@@ -86,7 +80,7 @@ public class PostController {
         }
         return new ResponseEntity<>(post, response);
     }
-
+    @CrossOrigin()
     @DeleteMapping("/api/delete/post/{id}")
     public ResponseEntity<String> detelePost(HttpServletRequest request, @PathVariable Integer id) {
         String message = "";

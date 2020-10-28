@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import experis.noticeboard.models.Comment;
 import experis.noticeboard.models.Post;
 import experis.noticeboard.models.UserAccount;
-import experis.noticeboard.repositories.CommentRepository;
-import experis.noticeboard.repositories.PostRepository;
 import experis.noticeboard.repositories.UserAccountRepository;
 
 @RestController
@@ -28,11 +26,6 @@ public class UserAccountController {
     
     @Autowired
     private UserAccountRepository userRepository;
-    @Autowired
-    private PostRepository PostRepository;
-    @Autowired
-    private CommentRepository commentRepository;
-
 
     @GetMapping("/api/fetch/useraccount/{id}") 
     public ResponseEntity<UserAccount> getUserById(HttpServletRequest request, @PathVariable Integer id) {

@@ -70,8 +70,8 @@ public class UserAccountController {
         if (userRepository.existsById(id)) {
             user = userRepository.findById(id).get();
 
-            if (newUser.getUsername() != null) {
-                user.setUsername(newUser.getUsername());
+            if (newUser.getUserName() != null) {
+                user.setUserName(newUser.getUserName());
             }
             if (newUser.getPassword() != null) {
                 user.setPassword(newUser.getPassword());

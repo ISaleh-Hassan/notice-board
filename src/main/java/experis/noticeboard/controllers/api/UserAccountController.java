@@ -27,7 +27,7 @@ public class UserAccountController {
     @Autowired
     private CommentRepository commentRepository;
 
-
+    @CrossOrigin()
     @GetMapping("/api/fetch/useraccount/{id}") 
     public ResponseEntity<UserAccount> getUserById(HttpServletRequest request, @PathVariable Integer id) {
         UserAccount user;

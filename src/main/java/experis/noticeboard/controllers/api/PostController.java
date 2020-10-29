@@ -27,7 +27,7 @@ public class PostController {
 
     @Autowired
     CommentRepository commentRepository;
-
+    @CrossOrigin()
     @GetMapping("/api/fetch/post/{id}") 
     public ResponseEntity<Post> getPostById(HttpServletRequest request, @PathVariable Integer id) {
         Post post;
@@ -57,7 +57,7 @@ public class PostController {
 
         return new ResponseEntity<>(posts, response);
     }
-
+    @CrossOrigin()
     @PostMapping("/api/create/post/{userId}")
     public ResponseEntity<Post> addPost(HttpServletRequest request, @RequestBody Post newPost, @PathVariable Integer userId) {
         HttpStatus response;

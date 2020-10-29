@@ -17,9 +17,7 @@ import experis.noticeboard.controllers.api.UserAccountController;
 import experis.noticeboard.models.Comment;
 import experis.noticeboard.models.Post;
 import experis.noticeboard.models.UserAccount;
-import experis.noticeboard.repositories.CommentRepository;
-import experis.noticeboard.repositories.PostRepository;
-import experis.noticeboard.repositories.UserAccountRepository;
+
 
 @SpringBootTest
 class NoticeboardApplicationTests {
@@ -32,13 +30,6 @@ class NoticeboardApplicationTests {
 
     @Autowired
     private CommentController cc;
-
-    @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private UserAccountRepository uaRepository;
 
     @Test
     void getOneUserFromId() {
@@ -132,40 +123,11 @@ class NoticeboardApplicationTests {
         int postId = createATestPost(userId); 
         ResponseEntity<Post> response2 = pc.getPostById(postId);
         assertEquals(HttpStatus.OK, response2.getStatusCode());
-        int commentId = createATestComment(userId, postId);
-        System.out.println("!!!!!!!!!!!!!!!!!! " + postId + " " + userId + " " + commentId +"!!!!!!!!!!!!!!!!!!!!!");
+        createATestComment(userId, postId);
         ResponseEntity<String> response = pc.deletePost(postId);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         response2 = pc.getPostById(postId);
         assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
-        // UserAccount userAccount = new UserAccount();
-        // UserAccount savedUa = uaRepository.save(userAccount);
-
-        // Post post = new Post();
-        // post.setUserAccount(new UserAccount(savedUa.getId()));
-        // Post savedPost = postRepository.save(post);
-
-        // Comment c = new Comment();
-        // c.setMessage("Hejsan");
-        // c.setUserAccount(new UserAccount(savedUa.getId()));
-        // c.setPost(new Post(savedPost.getId()));
-
-        // assertEquals(0, commentRepository.count());
-        // Comment saved = commentRepository.save(c);
-        // assertEquals(1, commentRepository.count());
-
-        // Post p1 = postRepository.findById(savedPost.getId()).get();
-        // assertEquals(1, p1.getComments().size());
-
-        // commentRepository.deleteById(saved.getId());
-        // assertEquals(0, commentRepository.count());
-
-        // Post p2 = postRepository.findById(savedPost.getId()).get();
-        // assertEquals(0, p2.getComments().size());
-
-        // UserAccount u = uaRepository.findById(savedUa.getId()).get();
-        // assertEquals(0, u.getComments().size());
-        // assertEquals(1, u.getPosts().size());
     }
 
 

@@ -34,9 +34,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
 
         http.logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .addLogoutHandler(new SecurityContextLogoutHandler()).logoutSuccessUrl("/")
-                );
+                .logoutUrl("/logout")
+                .addLogoutHandler(new SecurityContextLogoutHandler()).logoutSuccessUrl("/?logout")
+        );
+        http.sessionManagement()
+                .maximumSessions(2)
+                .expiredUrl("/?expired")
+        ;
     }
 
     @Bean

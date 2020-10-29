@@ -9,15 +9,22 @@
 <p>Hello</p>
 
 <a th:href="@{/login}">Log in</a>
+<a th:href="@{/blog}">Blog</a>
 
 <div sec:authorize="hasAnyAuthority('USER','ADMIN')">
-<form method="post" th:action="@{/logout}">
-    <button type="submit">Logout</button>
-</form>
+    <form method="post" th:action="@{/logout}">
+        <button type="submit">Logout</button>
+    </form>
 </div>
 
-<div sec:authorize="hasAuthority('USER')">
+<div th:if="${param.logout}" class="alert alert-success">
+    You have been logged out.
+</div>
+
+<div sec:authorize="hasAnyAuthority('USER','ADMIN')">
     <p>Welcome, <span th:text="${#authentication.getName()}"></span></p>
 </div>
+
+
 </body>
 </html>

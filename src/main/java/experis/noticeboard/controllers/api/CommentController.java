@@ -40,16 +40,15 @@ public class CommentController {
             .orElseGet(() -> new ResponseEntity<>((Comment) null, HttpStatus.NOT_FOUND));
         } catch (IllegalArgumentException e) {
             System.out.println("id was null");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/api/fetch/comment/all")
     public ResponseEntity<ArrayList<Comment>> getAllComments(HttpServletRequest request) {
         ArrayList<Comment> comments = (ArrayList<Comment>)commentRepository.findAll();
-        HttpStatus response = HttpStatus.OK;
         System.out.println("Fetched all comments");
-        return new ResponseEntity<>(comments, response);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
     @PostMapping("/api/create/comment/{userId}/{postId}")
@@ -70,19 +69,16 @@ public class CommentController {
             return new ResponseEntity<>(newComment, response);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id or newComment was null.");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-        
     }
 
     @PatchMapping("/api/update/comment/{id}")
     public ResponseEntity<Comment> updateComment(@RequestBody Comment newComment, @PathVariable Integer id) {
        try {
-            Comment comment;
+            Comment comment = commentRepository.findById(id).orElse(null);
             HttpStatus response;
-            if (commentRepository.existsById(id)) {
-                comment = commentRepository.findById(id).get();
-
+            if (comment != null) {
                 if (newComment.getMessage() != null) {
                     comment.setMessage(newComment.getMessage());
                 }
@@ -91,13 +87,12 @@ public class CommentController {
                 System.out.println("Updated comment with id: " + comment.getId());
             } else {
                 System.out.println("Could not find comment with id: " + id);
-                comment = null;
                 response = HttpStatus.NOT_FOUND;
             }
             return new ResponseEntity<>(comment, response);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id was null");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
        }   
     }
 
@@ -120,7 +115,7 @@ public class CommentController {
             return new ResponseEntity<>(message, response);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id was null");
-            return new ResponseEntity<>("FAIL", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
         }    
     }
 }

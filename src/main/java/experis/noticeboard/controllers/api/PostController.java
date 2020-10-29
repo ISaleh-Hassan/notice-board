@@ -42,7 +42,7 @@ public class PostController {
             .orElseGet(() -> new ResponseEntity<>((Post) null, HttpStatus.NOT_FOUND));
         } catch (IllegalArgumentException e) {
             System.out.println("id was null");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -69,17 +69,16 @@ public class PostController {
             return new ResponseEntity<>(newPost, response);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id or newPost was null.");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PatchMapping("/api/update/post/{id}")
     public ResponseEntity<Post> updatePost(@RequestBody Post newPost, @PathVariable Integer id) {    
         try {
-            Post post = null;
+            Post post = postRepository.findById(id).orElse(null);
             HttpStatus response = HttpStatus.NOT_FOUND;
-            if (postRepository.existsById(id)) {
-                post = postRepository.findById(id).get();
+            if (post != null) {
                 if (newPost.getMessage() != null) {
                     post.setMessage(newPost.getMessage());
                 }
@@ -92,7 +91,7 @@ public class PostController {
             return new ResponseEntity<>(post, response);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id or newPost was null.");
-            return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }  
     }
 
@@ -100,7 +99,7 @@ public class PostController {
     public ResponseEntity<String> deletePost(@PathVariable Integer id) {
         try {
             String message = "FAIL";
-            HttpStatus response = HttpStatus.NOT_FOUND;;
+            HttpStatus response = HttpStatus.NOT_FOUND;
             if (postRepository.existsById(id)) {
                 Post post = postRepository.findById(id).get();
                 commentRepository.deleteAll(post.getComments());
@@ -114,9 +113,7 @@ public class PostController {
             return new ResponseEntity<>(message, response);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id was null.");
-        } catch (ClassCastException e2) {
-            System.out.println("Exception thrown: failed to remove post or comment.");
+            return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("FAIL", HttpStatus.NOT_FOUND);
     }
 }

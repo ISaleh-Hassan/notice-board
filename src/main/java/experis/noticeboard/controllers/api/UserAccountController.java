@@ -41,16 +41,15 @@ public class UserAccountController {
             .orElseGet(() -> new ResponseEntity<>((UserAccount) null, HttpStatus.NOT_FOUND));
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id was null");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/api/fetch/useraccount/all")
     public ResponseEntity<ArrayList<UserAccount>> getAllUsers() {
         ArrayList<UserAccount> users = (ArrayList<UserAccount>)userRepository.findAll();
-        HttpStatus response = HttpStatus.OK;
         System.out.println("Fetched all users");
-        return new ResponseEntity<>(users, response);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @PostMapping("/api/create/useraccount")
@@ -61,7 +60,7 @@ public class UserAccountController {
             return new ResponseEntity<>(newUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: newUser was null.");
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }    
     }
 
@@ -78,13 +77,7 @@ public class UserAccountController {
                 }
                 if (newUser.getPassword() != null) {
                     user.setPassword(newUser.getPassword());
-                }
-                if (newUser.getPosts() != null) {
-                    user.setPosts(newUser.getPosts());
-                }
-                if (newUser.getComments() != null) {
-                    user.setComments(newUser.getComments());
-                }    
+                }  
                 userRepository.save(user);
                 response = HttpStatus.OK;
                 System.out.println("Updated user with id: " + user.getId());
@@ -96,7 +89,7 @@ public class UserAccountController {
             return new ResponseEntity<>(user, response);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id or user was null.");
-            return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }     
     }
 
@@ -106,16 +99,14 @@ public class UserAccountController {
             String message = "";
             HttpStatus response;
     
-            if (userRepository.existsById(id)) {
-                UserAccount user = userRepository.findById(id).get();
+            UserAccount user = userRepository.findById(id).orElse(null);
+            if (user != null) {
                 commentRepository.deleteAll(user.getComments());
                 Collection<Post> posts = user.getPosts();
-                if (posts.size() > 0) {
-                    for (Post post : posts) {
-                        commentRepository.deleteAll(post.getComments());
-                    }
-                    postRepository.deleteAll(user.getPosts());
+                for (Post post : posts) {
+                    commentRepository.deleteAll(post.getComments());
                 }
+                postRepository.deleteAll(user.getPosts());
                 userRepository.deleteById(id);
                 System.out.println("Deleted user with id: " + id);
                 message = "SUCCESS";
@@ -128,7 +119,7 @@ public class UserAccountController {
             return new ResponseEntity<>(message, response);
         } catch (IllegalArgumentException e) {
             System.out.println("Exception thrown: id was null.");
-            return new ResponseEntity<>("FAIL", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
         }    
     }  
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import experis.noticeboard.models.Comment;
 import experis.noticeboard.models.Post;
 import experis.noticeboard.models.UserAccount;
+import experis.noticeboard.repositories.CommentRepository;
+import experis.noticeboard.repositories.PostRepository;
 import experis.noticeboard.repositories.UserAccountRepository;
 
 @RestController
@@ -25,6 +27,12 @@ public class UserAccountController {
     
     @Autowired
     private UserAccountRepository userRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     @GetMapping("/api/fetch/useraccount/{id}") 
     public ResponseEntity<UserAccount> getUserById(@PathVariable Integer id) {
@@ -101,23 +109,13 @@ public class UserAccountController {
     
             if (userRepository.existsById(id)) {
                 UserAccount user = userRepository.findById(id).get();
-                Collection<Comment> comments = user.getComments();
-                if (comments.size() > 0) {
-                    for (Comment comment : comments) {
-                        comment.getPost().getComments().remove(comment);
-                    }
-                    comments.clear();
-                } 
+                commentRepository.deleteAll(user.getComments());
                 Collection<Post> posts = user.getPosts();
                 if (posts.size() > 0) {
                     for (Post post : posts) {
-                        comments = post.getComments();
-                        for (Comment comment : comments) {
-                            comment.getUserAccount().getComments().remove(comment);
-                        }
-                        comments.clear();
+                        commentRepository.deleteAll(post.getComments());
                     }
-                    user.getPosts().clear();
+                    postRepository.deleteAll(user.getPosts());
                 }
                 userRepository.deleteById(id);
                 System.out.println("Deleted user with id: " + id);

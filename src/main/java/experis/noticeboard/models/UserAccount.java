@@ -26,20 +26,24 @@ public class UserAccount {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column
     private String username;
     
-    @Column(nullable = false)
+    @Column
     private String password;
    
-    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER, orphanRemoval = true, cascade=CascadeType.ALL) 
+    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER) 
     private Collection<Post> posts = new ArrayList<Post>();
 
-    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER, orphanRemoval = true, cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER)
     private Collection<Comment> comments = new ArrayList<Comment>();
 
     public UserAccount() {
         
+    }
+
+    public UserAccount(Integer id) {
+        this.id = id;
     }
 
     public UserAccount(String username, String password) {

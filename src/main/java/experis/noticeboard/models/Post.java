@@ -29,13 +29,17 @@ public class Post {
     @Column
     private String message;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     private UserAccount userAccount;
 
-    @OneToMany(mappedBy="post", fetch=FetchType.EAGER, orphanRemoval = true, cascade=CascadeType.ALL) 
+    @OneToMany(mappedBy="post", fetch=FetchType.EAGER) 
     private Collection<Comment> comments = new ArrayList<Comment>();
 
     public Post() {
+    }
+
+    public Post(Integer id) {
+        this.id = id;
     }
 
     public Post(String message, UserAccount userAccount) {

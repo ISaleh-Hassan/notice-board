@@ -23,10 +23,10 @@ public class Comment {
     @Column
     private String message;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     private Post post;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     private UserAccount userAccount;
 
     public Comment() {

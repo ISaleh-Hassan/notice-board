@@ -33,6 +33,9 @@ public class PostController {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    CommentController cc;
+
     @GetMapping("/api/fetch/post/{id}") 
     public ResponseEntity<Post> getPostById(@PathVariable Integer id) {
         try {
@@ -57,9 +60,7 @@ public class PostController {
         try {
             HttpStatus response;
             if (userAccountRepository.existsById(userId)) {
-                UserAccount user = userAccountRepository.findById(userId).get();
-                user.getPosts().add(newPost);
-                newPost.setUserAccount(user);
+                newPost.setUserAccount(new UserAccount(userId));
                 newPost = postRepository.save(newPost);
                 response = HttpStatus.CREATED;
                 System.out.println("New post with id: " + newPost.getId() + " added");
@@ -104,16 +105,8 @@ public class PostController {
             HttpStatus response = HttpStatus.NOT_FOUND;;
             if (postRepository.existsById(id)) {
                 Post post = postRepository.findById(id).get();
-                Collection<Comment> comments = post.getComments();
-                comments.forEach(c-> commentRepository.deleteById(c.getId()));
-                commentRepository.flush();
-                // for (Comment comment : comments) {
-                //     comment.getUserAccount().getComments().remove(comment);
-                // }    
-                // comments.clear();  
-                // post.getUserAccount().getPosts().remove(post);
+                commentRepository.deleteAll(post.getComments());
                 postRepository.deleteById(id);
-                postRepository.flush();
                 System.out.println("Deleted post with id: " + id);
                 message = "SUCCESS";
                 response = HttpStatus.OK;

@@ -1,10 +1,16 @@
 package experis.noticeboard.models;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -22,10 +28,18 @@ public class Post {
     @Column
     private String message;
 
-    @Column
-    private Integer userAccountId;
+    @ManyToOne
+    private UserAccount userAccount;
+
+    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL) 
+    private Collection<Comment> comments = new ArrayList<Comment>();
 
     public Post() {
+    }
+
+    public Post(String message, UserAccount userAccount) {
+        this.message = message;
+        this.userAccount = userAccount;
     }
     
     public Integer getId() {
@@ -44,12 +58,20 @@ public class Post {
         this.message = message;
     }
 
-    public Integer getUserAccountId() {
-        return userAccountId;
+    public UserAccount getUserAccount() {
+        return userAccount;
     }
 
-    public void setUserAccountId(Integer userAccountId) {
-        this.userAccountId = userAccountId;
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
     }
 
 }

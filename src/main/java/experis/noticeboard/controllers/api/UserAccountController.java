@@ -1,6 +1,7 @@
 package experis.noticeboard.controllers.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import experis.noticeboard.models.Comment;
+import experis.noticeboard.models.Post;
 import experis.noticeboard.models.UserAccount;
 import experis.noticeboard.repositories.UserAccountRepository;
 
@@ -76,6 +79,9 @@ public class UserAccountController {
             if (newUser.getPassword() != null) {
                 user.setPassword(newUser.getPassword());
             }
+            if (newUser.getPosts() != null) {
+                user.setPosts(newUser.getPosts());
+            }
 
             userRepository.save(user);
             response = HttpStatus.OK;
@@ -94,6 +100,21 @@ public class UserAccountController {
         HttpStatus response;
 
         if (userRepository.existsById(id)) {
+            UserAccount user = userRepository.findById(id).get();
+            Collection<Comment> comments = user.getComments();
+            for (Comment comment : comments) {
+                comment.getPost().getComments().remove(comment);
+            }
+            comments.clear();
+            Collection<Post> posts = user.getPosts();
+            for (Post post : posts) {
+                comments = post.getComments();
+                for (Comment comment : comments) {
+                    comment.getUserAccount().getComments().remove(comment);
+                }
+                comments.clear();
+            }
+            user.getPosts().clear();
             userRepository.deleteById(id);
             System.out.println("Deleted user with id: " + id);
             message = "SUCCESS";

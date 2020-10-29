@@ -107,22 +107,27 @@ public class CommentController {
 
     @DeleteMapping("/api/delete/comment/{id}")
     public ResponseEntity<String> deteleComment(HttpServletRequest request, @PathVariable Integer id) {
-        String message = "";
-        HttpStatus response;
-
-        if (commentRepository.existsById(id)) {
-            Comment comment = commentRepository.findById(id).get();
-            comment.getPost().getComments().remove(comment);
-            comment.getUserAccount().getComments().remove(comment);
-            commentRepository.deleteById(id);
-            System.out.println("Deleted comment with id: " + id);
-            message = "SUCCESS";
-            response = HttpStatus.OK;
-        } else {
-            System.out.println("Could not find comment with id: " + id);
-            message = "FAIL";
-            response = HttpStatus.NOT_FOUND;
-        }
-        return new ResponseEntity<>(message, response);
+        try {
+            String message = "";
+            HttpStatus response;
+    
+            if (commentRepository.existsById(id)) {
+                Comment comment = commentRepository.findById(id).get();
+                comment.getPost().getComments().remove(comment);
+                comment.getUserAccount().getComments().remove(comment);
+                commentRepository.deleteById(id);
+                System.out.println("Deleted comment with id: " + id);
+                message = "SUCCESS";
+                response = HttpStatus.OK;
+            } else {
+                System.out.println("Could not find comment with id: " + id);
+                message = "FAIL";
+                response = HttpStatus.NOT_FOUND;
+            }
+            return new ResponseEntity<>(message, response);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Exception thrown: id was null");
+            return new ResponseEntity<>("FAIL", HttpStatus.NOT_FOUND);
+        }    
     }
 }

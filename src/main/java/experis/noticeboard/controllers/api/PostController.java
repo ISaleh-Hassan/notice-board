@@ -1,7 +1,6 @@
 package experis.noticeboard.controllers.api;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import experis.noticeboard.models.Comment;
 import experis.noticeboard.models.Post;
 import experis.noticeboard.models.UserAccount;
 import experis.noticeboard.repositories.CommentRepository;

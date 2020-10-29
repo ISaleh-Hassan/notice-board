@@ -11,7 +11,8 @@
 <a th:href="@{/login}">Log in</a>
 <a th:href="@{/blog}">Blog</a>
 
-<div sec:authorize="hasAnyAuthority('USER','ADMIN')">
+<!-- Only users get to see the logout option -->
+<div sec:authorize="hasAuthority('USER')">
     <form method="post" th:action="@{/logout}">
         <button type="submit">Logout</button>
     </form>
@@ -21,7 +22,8 @@
     You have been logged out.
 </div>
 
-<div sec:authorize="hasAnyAuthority('USER','ADMIN')">
+<!-- Users get to see their name-->
+<div sec:authorize="hasAuthority('USER')">
     <p>Welcome, <span th:text="${#authentication.getName()}"></span></p>
 </div>
 

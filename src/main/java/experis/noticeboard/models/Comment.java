@@ -23,20 +23,14 @@ public class Comment {
     @Column
     private String message;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     private Post post;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     private UserAccount userAccount;
 
     public Comment() {
 
-    }
-
-    public Comment(String message, Post post, UserAccount user) {
-        this.message = message;
-        this.post = post;
-        this.userAccount = user;
     }
 
     public Integer getId() {

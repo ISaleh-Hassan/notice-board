@@ -6,7 +6,6 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,10 +31,10 @@ public class UserAccount {
     @Column(nullable = false)
     private String password;
    
-    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER, orphanRemoval = true, cascade=CascadeType.ALL) 
+    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL) 
     private Collection<Post> posts = new ArrayList<Post>();
 
-    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER, orphanRemoval = true, cascade=CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL)
     private Collection<Comment> comments = new ArrayList<Comment>();
 
     public UserAccount() {

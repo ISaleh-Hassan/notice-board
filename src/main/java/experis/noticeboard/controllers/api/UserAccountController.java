@@ -3,6 +3,7 @@ package experis.noticeboard.controllers.api;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,111 +28,103 @@ public class UserAccountController {
     private UserAccountRepository userRepository;
 
     @GetMapping("/api/fetch/useraccount/{id}") 
-    public ResponseEntity<UserAccount> getUserById(@PathVariable Integer id) {
-        try {
-            return userRepository.findById(id)
-            .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-            .orElseGet(() -> new ResponseEntity<>((UserAccount) null, HttpStatus.NOT_FOUND));
-        } catch (IllegalArgumentException e) {
-            System.out.println("Exception thrown: id was null");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    public ResponseEntity<UserAccount> getUserById(HttpServletRequest request, @PathVariable Integer id) {
+        UserAccount user;
+        HttpStatus response;
+
+        if (userRepository.existsById(id)) {
+            System.out.println("User with id: " + id);
+            user = userRepository.findById(id).get();
+            response = HttpStatus.OK;
+        } else {
+            System.out.println("Could not find user with id: " + id);
+            user = null;
+            response = HttpStatus.NOT_FOUND;
         }
+
+        return new ResponseEntity<>(user, response);
     }
 
     @GetMapping("/api/fetch/useraccount/all")
-    public ResponseEntity<ArrayList<UserAccount>> getAllUsers() {
-        ArrayList<UserAccount> users = (ArrayList<UserAccount>)userRepository.findAll();
-        HttpStatus response = HttpStatus.OK;
+    public ResponseEntity<ArrayList<UserAccount>> getAllUsers(HttpServletRequest request) {
+        ArrayList<UserAccount> users = new ArrayList<UserAccount>();
+        HttpStatus response;
+
+        users = (ArrayList<UserAccount>)userRepository.findAll();
+        response = HttpStatus.OK;
         System.out.println("Fetched all users");
+
         return new ResponseEntity<>(users, response);
     }
 
     @PostMapping("/api/create/useraccount")
-    public ResponseEntity<UserAccount> addUser(@RequestBody UserAccount newUser) {
-        try {
-            newUser = userRepository.save(newUser);
-            System.out.println("New user with id: " + newUser.getId() + " added");
-            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Exception thrown: newUser was null.");
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        }    
+    public ResponseEntity<UserAccount> addUser(HttpServletRequest request, @RequestBody UserAccount newUser) {
+        newUser = userRepository.save(newUser);
+        System.out.println("New user with id: " + newUser.getId() + " added");
+        HttpStatus response = HttpStatus.CREATED;
+        return new ResponseEntity<>(newUser, response);
     }
 
     @PatchMapping("/api/update/useraccount/{id}")
-    public ResponseEntity<UserAccount> updateUser(@RequestBody UserAccount newUser, @PathVariable Integer id) {      
-        try {
-            UserAccount user;
-            HttpStatus response;
-            if (userRepository.existsById(id)) {
-                user = userRepository.findById(id).get();
-    
-                if (newUser.getUsername() != null) {
-                    user.setUsername(newUser.getUsername());
-                }
-                if (newUser.getPassword() != null) {
-                    user.setPassword(newUser.getPassword());
-                }
-                if (newUser.getPosts() != null) {
-                    user.setPosts(newUser.getPosts());
-                }
-                if (newUser.getComments() != null) {
-                    user.setComments(newUser.getComments());
-                }    
-                userRepository.save(user);
-                response = HttpStatus.OK;
-                System.out.println("Updated user with id: " + user.getId());
-            } else {
-                System.out.println("Could not find user with id: " + id);
-                user = null;
-                response = HttpStatus.NOT_FOUND;
+    public ResponseEntity<UserAccount> updateUser(HttpServletRequest request, @RequestBody UserAccount newUser, @PathVariable Integer id) {
+        UserAccount user;
+        HttpStatus response;
+
+        if (userRepository.existsById(id)) {
+            user = userRepository.findById(id).get();
+
+            if (newUser.getUsername() != null) {
+                user.setUsername(newUser.getUsername());
             }
-            return new ResponseEntity<>(user, response);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Exception thrown: id or user was null.");
-            return new ResponseEntity<>(null, HttpStatus.NOT_MODIFIED);
-        }     
+            if (newUser.getPassword() != null) {
+                user.setPassword(newUser.getPassword());
+            }
+            if (newUser.getPosts() != null) {
+                user.setPosts(newUser.getPosts());
+            }
+
+            userRepository.save(user);
+            response = HttpStatus.OK;
+            System.out.println("Updated user with id: " + user.getId());
+        } else {
+            System.out.println("Could not find user with id: " + id);
+            user = null;
+            response = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(user, response);
     }
 
     @DeleteMapping("/api/delete/useraccount/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {       
-        try {
-            String message = "";
-            HttpStatus response;
-    
-            if (userRepository.existsById(id)) {
-                UserAccount user = userRepository.findById(id).get();
-                Collection<Comment> comments = user.getComments();
-                if (comments.size() > 0) {
-                    for (Comment comment : comments) {
-                        comment.getPost().getComments().remove(comment);
-                    }
-                    comments.clear();
-                } 
-                Collection<Post> posts = user.getPosts();
-                if (posts.size() > 0) {
-                    for (Post post : posts) {
-                        comments = post.getComments();
-                        for (Comment comment : comments) {
-                            comment.getUserAccount().getComments().remove(comment);
-                        }
-                        comments.clear();
-                    }
-                    user.getPosts().clear();
-                }
-                userRepository.deleteById(id);
-                System.out.println("Deleted user with id: " + id);
-                message = "SUCCESS";
-                response = HttpStatus.OK;
-            } else {
-                System.out.println("Could not find user with id: " + id);
-                message = "FAIL";
-                response = HttpStatus.NOT_FOUND;
+    public ResponseEntity<String> deteleUser(HttpServletRequest request, @PathVariable Integer id) {
+        String message = "";
+        HttpStatus response;
+
+        if (userRepository.existsById(id)) {
+            UserAccount user = userRepository.findById(id).get();
+            Collection<Comment> comments = user.getComments();
+            for (Comment comment : comments) {
+                comment.getPost().getComments().remove(comment);
             }
-            return new ResponseEntity<>(message, response);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Exception thrown: id was null.");
-            return new ResponseEntity<>("FAIL", HttpStatus.NOT_FOUND);
-        }    
-    }  
+            comments.clear();
+            Collection<Post> posts = user.getPosts();
+            for (Post post : posts) {
+                comments = post.getComments();
+                for (Comment comment : comments) {
+                    comment.getUserAccount().getComments().remove(comment);
+                }
+                comments.clear();
+            }
+            user.getPosts().clear();
+            userRepository.deleteById(id);
+            System.out.println("Deleted user with id: " + id);
+            message = "SUCCESS";
+            response = HttpStatus.OK;
+        } else {
+            System.out.println("Could not find user with id: " + id);
+            message = "FAIL";
+            response = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(message, response);
+    }
+    
 }

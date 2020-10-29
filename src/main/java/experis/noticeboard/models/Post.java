@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,10 +29,10 @@ public class Post {
     @Column
     private String message;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     private UserAccount userAccount;
 
-    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL) 
+    @OneToMany(mappedBy="post", fetch=FetchType.EAGER, orphanRemoval = true, cascade=CascadeType.ALL) 
     private Collection<Comment> comments = new ArrayList<Comment>();
 
     public Post() {

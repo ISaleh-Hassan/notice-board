@@ -1,13 +1,12 @@
 package experis.noticeboard.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 @Entity
@@ -22,6 +21,12 @@ public class UserAccount {
     public String password;
     public boolean active;
     public String roles;
+
+    @OneToMany(orphanRemoval = true, cascade= CascadeType.ALL)
+    private Collection<Post> posts = new ArrayList<Post>();
+
+    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL)
+    private Collection<Comment> comments = new ArrayList<Comment>();
 
     public int getId() {
         return id;
@@ -61,6 +66,22 @@ public class UserAccount {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public Collection<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Collection<Post> posts) {
+        this.posts = posts;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
     }
 }
 

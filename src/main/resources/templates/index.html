@@ -9,9 +9,8 @@
 <p>Hello</p>
 
 <a th:href="@{/login}">Log in</a>
-<a th:href="@{/blog}">Blog</a>
 
-<div sec:authorize="hasAuthority('USER')">
+<div sec:authorize="hasAnyAuthority('USER','ADMIN')">
 <form method="post" th:action="@{/logout}">
     <button type="submit">Logout</button>
 </form>

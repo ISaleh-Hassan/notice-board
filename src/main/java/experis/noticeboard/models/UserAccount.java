@@ -17,19 +17,24 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id")
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class UserAccount {
-
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    private String username;
+    private String userName;
     
     @Column
     private String password;
+
+    @Column
+    public boolean active;
+
+    @Column
+    public String roles;
    
     @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER) 
     private Collection<Post> posts = new ArrayList<Post>();
@@ -46,7 +51,7 @@ public class UserAccount {
     }
 
     public UserAccount(String username, String password) {
-        this.username = username;
+        this.userName = username;
         this.password = password;
     }
 
@@ -54,16 +59,16 @@ public class UserAccount {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String userame) {
-        this.username = userame;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -90,6 +95,20 @@ public class UserAccount {
         this.comments = comments;
     }
 
+    public boolean isActive() {
+        return active;
+    }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 }
+

@@ -1,6 +1,5 @@
 package experis.noticeboard.models;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,6 +31,12 @@ public class Comment {
 
     public Comment() {
 
+    }
+
+    public Comment(String message, Post post, UserAccount user) {
+        this.message = message;
+        this.post = post;
+        this.userAccount = user;
     }
 
     public Integer getId() {

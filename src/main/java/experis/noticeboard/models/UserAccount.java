@@ -3,9 +3,9 @@ package experis.noticeboard.models;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,49 +17,60 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @JsonIdentityInfo(
-    generator = ObjectIdGenerators.PropertyGenerator.class,
-    property = "id")
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class UserAccount {
-
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    private String username;
+    @Column
+    private String userName;
     
-    @Column(nullable = false)
+    @Column
     private String password;
+
+    @Column
+    public boolean active;
+
+    @Column
+    public String roles;
    
-    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL) 
+    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER) 
     private Collection<Post> posts = new ArrayList<Post>();
 
-    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER)
     private Collection<Comment> comments = new ArrayList<Comment>();
 
     public UserAccount() {
         
     }
 
-    public UserAccount(String username, String password) {
-        this.username = username;
+    public UserAccount(Integer id) {
+        this.id = id;
+    }
+
+    public UserAccount(String username, String password, boolean active, String role) {
+        this.userName = username;
         this.password = password;
+        this.active = active;
+        this.roles = role;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String userame) {
-        this.username = userame;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -86,6 +97,20 @@ public class UserAccount {
         this.comments = comments;
     }
 
+    public boolean isActive() {
+        return active;
+    }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 }
+

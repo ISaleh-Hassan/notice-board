@@ -7,13 +7,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import experis.noticeboard.models.Post;
 import experis.noticeboard.models.UserAccount;
@@ -33,6 +27,7 @@ public class UserAccountController {
     @Autowired
     private PostRepository postRepository;
 
+    @CrossOrigin()
     @GetMapping("/api/fetch/useraccount/{id}") 
     public ResponseEntity<UserAccount> getUserById(@PathVariable Integer id) {
         try {
@@ -44,14 +39,14 @@ public class UserAccountController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
+    @CrossOrigin()
     @GetMapping("/api/fetch/useraccount/all")
     public ResponseEntity<ArrayList<UserAccount>> getAllUsers() {
         ArrayList<UserAccount> users = (ArrayList<UserAccount>)userRepository.findAll();
         System.out.println("Fetched all users");
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-
+    @CrossOrigin()
     @PostMapping("/api/create/useraccount")
     public ResponseEntity<UserAccount> addUser(@RequestBody UserAccount newUser) {
         try {
@@ -63,7 +58,7 @@ public class UserAccountController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }    
     }
-
+    @CrossOrigin()
     @PatchMapping("/api/update/useraccount/{id}")
     public ResponseEntity<UserAccount> updateUser(@RequestBody UserAccount newUser, @PathVariable Integer id) {      
         try {
@@ -92,7 +87,7 @@ public class UserAccountController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }     
     }
-
+    @CrossOrigin()
     @DeleteMapping("/api/delete/useraccount/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer id) {       
         try {

@@ -7,13 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import experis.noticeboard.models.Comment;
 import experis.noticeboard.models.Post;
@@ -31,6 +25,7 @@ public class CommentController {
     UserAccountRepository userRepository;
     @Autowired
     PostRepository postRepositroy;
+    @CrossOrigin()
 
     @GetMapping("/api/fetch/comment/{id}") 
     public ResponseEntity<Comment> getCommentById(@PathVariable Integer id) {
@@ -43,7 +38,7 @@ public class CommentController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
+    @CrossOrigin()
     @GetMapping("/api/fetch/comment/all")
     public ResponseEntity<ArrayList<Comment>> getAllComments(HttpServletRequest request) {
         ArrayList<Comment> comments = (ArrayList<Comment>)commentRepository.findAll();
@@ -72,7 +67,7 @@ public class CommentController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
+    @CrossOrigin()
     @PatchMapping("/api/update/comment/{id}")
     public ResponseEntity<Comment> updateComment(@RequestBody Comment newComment, @PathVariable Integer id) {
        try {
@@ -95,7 +90,7 @@ public class CommentController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
        }   
     }
-
+    @CrossOrigin()
     @DeleteMapping("/api/delete/comment/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable Integer id) {
         try {

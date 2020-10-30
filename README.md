@@ -8,6 +8,8 @@ view the posts or comments.
 The application is made using Spring, Thymeleaf and JavaScript for the frontend, Hibernate and Postgresql for the backend, and Spring Security for the 
 user authentication.
 
+Visit the site through: https://noticeboardapplication.herokuapp.com/
+
 # Installation
 
 1. Clone the repo from https://github.com/ISaleh-Hassan/notice-board

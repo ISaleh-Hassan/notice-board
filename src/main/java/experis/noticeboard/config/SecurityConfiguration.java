@@ -25,8 +25,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/").permitAll() // Makes it possible for anonymous users to view content
-                .and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/"); // Redirects to home page if logged in successfully
+                .antMatchers("/").permitAll().antMatchers("/api/**").permitAll() // Makes it possible for anonymous users to view content
+                .and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/").and().csrf().disable(); // Redirects to home page if logged in successfully
 
         http.logout(logout -> logout
                 .logoutUrl("/logout")

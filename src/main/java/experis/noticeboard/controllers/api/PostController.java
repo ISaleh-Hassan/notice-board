@@ -2,7 +2,6 @@ package experis.noticeboard.controllers.api;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,92 +15,105 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import experis.noticeboard.models.Post;
+import experis.noticeboard.models.UserAccount;
+import experis.noticeboard.repositories.CommentRepository;
 import experis.noticeboard.repositories.PostRepository;
+import experis.noticeboard.repositories.UserAccountRepository;
 
 @RestController
 public class PostController {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    UserAccountRepository userAccountRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    CommentController cc;
+
     @GetMapping("/api/fetch/post/{id}") 
-    public ResponseEntity<Post> getPostById(HttpServletRequest request, @PathVariable Integer id) {
-        Post post;
-        HttpStatus response;
-
-        if (postRepository.existsById(id)) {
-            System.out.println("Post with id: " + id);
-            post = postRepository.findById(id).get();
-            response = HttpStatus.OK;
-        } else {
-            System.out.println("Could not find post with id: " + id);
-            post = null;
-            response = HttpStatus.NOT_FOUND;
+    public ResponseEntity<Post> getPostById(@PathVariable Integer id) {
+        try {
+            return postRepository.findById(id)
+            .map(post -> new ResponseEntity<>(post, HttpStatus.OK))
+            .orElseGet(() -> new ResponseEntity<>((Post) null, HttpStatus.NOT_FOUND));
+        } catch (IllegalArgumentException e) {
+            System.out.println("id was null");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(post, response);
     }
 
     @GetMapping("/api/fetch/post/all")
-    public ResponseEntity<ArrayList<Post>> getAllPosts(HttpServletRequest request) {
-        ArrayList<Post> posts = new ArrayList<Post>();
-        HttpStatus response;
-
-        posts = (ArrayList<Post>)postRepository.findAll();
-        response = HttpStatus.OK;
+    public ResponseEntity<ArrayList<Post>> getAllPosts() {
+        ArrayList<Post> posts = (ArrayList<Post>)postRepository.findAll();
         System.out.println("Fetched all posts");
-
-        return new ResponseEntity<>(posts, response);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    @PostMapping("/api/create/post")
-    public ResponseEntity<Post> addPost(HttpServletRequest request, @RequestBody Post newPost) {
-        newPost = postRepository.save(newPost);
-        System.out.println("New post with id: " + newPost.getId() + " added");
-        HttpStatus response = HttpStatus.CREATED;
-        return new ResponseEntity<>(newPost, response);
+    @PostMapping("/api/create/post/{userId}")
+    public ResponseEntity<Post> addPost(@RequestBody Post newPost, @PathVariable Integer userId) {
+        try {
+            HttpStatus response;
+            if (userAccountRepository.existsById(userId)) {
+                newPost.setUserAccount(new UserAccount(userId));
+                newPost = postRepository.save(newPost);
+                response = HttpStatus.CREATED;
+                System.out.println("New post with id: " + newPost.getId() + " added");
+            } else {
+                System.out.println("Could not find user with id: " + userId);
+                response = HttpStatus.NOT_FOUND;
+            }
+            return new ResponseEntity<>(newPost, response);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Exception thrown: id or newPost was null.");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PatchMapping("/api/update/post/{id}")
-    public ResponseEntity<Post> updatePost(HttpServletRequest request, @RequestBody Post newPost, @PathVariable Integer id) {
-        Post post;
-        HttpStatus response;
-
-        if (postRepository.existsById(id)) {
-            post = postRepository.findById(id).get();
-
-            if (newPost.getMessage() != null) {
-                post.setMessage(newPost.getMessage());
+    public ResponseEntity<Post> updatePost(@RequestBody Post newPost, @PathVariable Integer id) {    
+        try {
+            Post post = postRepository.findById(id).orElse(null);
+            HttpStatus response = HttpStatus.NOT_FOUND;
+            if (post != null) {
+                if (newPost.getMessage() != null) {
+                    post.setMessage(newPost.getMessage());
+                }
+                postRepository.save(post);
+                response = HttpStatus.OK;
+                System.out.println("Updated post with id: " + post.getId());
+            } else {
+                System.out.println("Could not find post with id: " + id);
             }
-            if (newPost.getUserAccountId() != null) {
-                post.setUserAccountId(newPost.getUserAccountId());
-            }
-
-            postRepository.save(post);
-            response = HttpStatus.OK;
-            System.out.println("Updated post with id: " + post.getId());
-        } else {
-            System.out.println("Could not find post with id: " + id);
-            post = null;
-            response = HttpStatus.NOT_FOUND;
-        }
-        return new ResponseEntity<>(post, response);
+            return new ResponseEntity<>(post, response);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Exception thrown: id or newPost was null.");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }  
     }
 
     @DeleteMapping("/api/delete/post/{id}")
-    public ResponseEntity<String> detelePost(HttpServletRequest request, @PathVariable Integer id) {
-        String message = "";
-        HttpStatus response;
-
-        if (postRepository.existsById(id)) {
-            postRepository.deleteById(id);
-            System.out.println("Deleted post with id: " + id);
-            message = "SUCCESS";
-            response = HttpStatus.OK;
-        } else {
-            System.out.println("Could not find post with id: " + id);
-            message = "FAIL";
-            response = HttpStatus.NOT_FOUND;
+    public ResponseEntity<String> deletePost(@PathVariable Integer id) {
+        try {
+            String message = "FAIL";
+            HttpStatus response = HttpStatus.NOT_FOUND;
+            if (postRepository.existsById(id)) {
+                Post post = postRepository.findById(id).get();
+                commentRepository.deleteAll(post.getComments());
+                postRepository.deleteById(id);
+                System.out.println("Deleted post with id: " + id);
+                message = "SUCCESS";
+                response = HttpStatus.OK;
+            } else {
+                System.out.println("Could not find post with id: " + id);
+            }
+            return new ResponseEntity<>(message, response);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Exception thrown: id was null.");
+            return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(message, response);
     }
 }

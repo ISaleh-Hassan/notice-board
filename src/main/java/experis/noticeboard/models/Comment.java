@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -22,14 +23,20 @@ public class Comment {
     @Column
     private String message;
 
-    @Column
-    private Integer postId;
+    @ManyToOne
+    private Post post;
 
-    @Column
-    private Integer userAccountId;
+    @ManyToOne
+    private UserAccount userAccount;
 
     public Comment() {
 
+    }
+
+    public Comment(String message, Post post, UserAccount user) {
+        this.message = message;
+        this.post = post;
+        this.userAccount = user;
     }
 
     public Integer getId() {
@@ -48,20 +55,20 @@ public class Comment {
         this.message = message;
     }
 
-    public Integer getPostId() {
-        return postId;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostId(Integer postId) {
-        this.postId = postId;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
-    public Integer getUserAccountId() {
-        return userAccountId;
+    public UserAccount getUserAccount() {
+        return userAccount;
     }
 
-    public void setUserAccountId(Integer userAccountId) {
-        this.userAccountId = userAccountId;
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
     }
     
 }

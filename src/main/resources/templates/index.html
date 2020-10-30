@@ -25,8 +25,9 @@
 <!-- Users get to see their name-->
 <div sec:authorize="hasAuthority('USER')">
     <p>Welcome, <span th:text="${#authentication.getName()}"></span></p>
+    <p>Welcome, <span th:text="${#authentication.toString()}"></span></p>
+    <p>Welcome, <span th:text="${#authentication.getDetails()}"></span></p>
 </div>
-
 
 </body>
 </html>

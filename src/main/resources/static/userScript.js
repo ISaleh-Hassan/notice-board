@@ -1,4 +1,5 @@
 
+
 function createUser() {
     fetch('http://localhost:8080/api/create/useraccount', {
         method: 'Post',
@@ -94,4 +95,3 @@ function addPost () {
     const currentDiv = document.getElementById("div1"); 
     document.body.insertBefore(newDiv, currentDiv); 
   }
-

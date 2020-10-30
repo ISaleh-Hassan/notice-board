@@ -50,9 +50,11 @@ public class UserAccount {
         this.id = id;
     }
 
-    public UserAccount(String username, String password) {
+    public UserAccount(String username, String password, boolean active, String role) {
         this.userName = username;
         this.password = password;
+        this.active = active;
+        this.roles = role;
     }
 
     public Integer getId() {

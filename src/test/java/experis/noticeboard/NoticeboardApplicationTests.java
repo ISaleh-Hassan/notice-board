@@ -46,18 +46,18 @@ class NoticeboardApplicationTests {
 
     @Test
     void createUsers() {
-        ResponseEntity<UserAccount> response = uac.addUser(new UserAccount("TestPerson", "TestPassword"));        
+        ResponseEntity<UserAccount> response = uac.addUser(new UserAccount("TestPerson", "TestPassword", false, "USER"));        
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("TestPerson", response.getBody().getUsername());
+        assertEquals("TestPerson", response.getBody().getUserName());
         assertEquals("TestPassword", response.getBody().getPassword());
     }
 
     @Test
     void updateUser() {
         int id = createATestPerson();        
-        ResponseEntity<UserAccount> response = uac.updateUser(new UserAccount("UpdatedUser", "UpdatedPassword"), id);   
+        ResponseEntity<UserAccount> response = uac.updateUser(new UserAccount("UpdatedUser", "UpdatedPassword", false, "USER"), id);   
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("UpdatedUser", response.getBody().getUsername());
+        assertEquals("UpdatedUser", response.getBody().getUserName());
         assertEquals("UpdatedPassword", response.getBody().getPassword());
     }
 
@@ -132,7 +132,7 @@ class NoticeboardApplicationTests {
 
 
     int createATestPerson() {
-        ResponseEntity<UserAccount> response = uac.addUser(new UserAccount("TestPerson", "testPassword"));
+        ResponseEntity<UserAccount> response = uac.addUser(new UserAccount("TestPerson", "testPassword", false, "USER"));
         return response.getBody().getId();
     }
 

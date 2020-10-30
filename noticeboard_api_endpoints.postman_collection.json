@@ -6,16 +6,18 @@
 	},
 	"item": [
 		{
-			"name": "localhost:8080/api/fetch/useraccount/all",
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/useraccount/all",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/fetch/useraccount/all",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/useraccount/all",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"fetch",
@@ -27,16 +29,18 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/fetch/useraccount/{userId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/useraccount/{userId}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/fetch/useraccount/{userId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/useraccount/{userId}",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"fetch",
@@ -48,16 +52,18 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/fetch/post/all",
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/post/all",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/fetch/post/all",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/post/all",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"fetch",
@@ -69,37 +75,41 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/fetch/post/{postId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/post/{postId}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/fetch/post/{postId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/post/all",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"fetch",
 						"post",
-						"{postId}"
+						"all"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/fetch/comment/all",
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/comment/all",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/fetch/comment/all",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/comment/all",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"fetch",
@@ -111,16 +121,18 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/fetch/comment/{commentId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/comment/{commentId}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/fetch/comment/{commentId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/comment/{commentId}",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"fetch",
@@ -132,13 +144,13 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/create/useraccount",
+			"name": "https://noticeboardapplication.herokuapp.comapi/create/useraccount",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userName\": \"TestUser\",\r\n    \"password\": \"testpassword\",\r\n    \"active\": true,\r\n    \"roles\": \"USER\"\r\n}",
+					"raw": "{\r\n    \"userName\": \"Darius\",\r\n    \"password\": \"dunk\",\r\n    \"active\": true,\r\n    \"roles\": \"USER\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -146,11 +158,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/create/useraccount",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/create/useraccount",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"create",
@@ -161,13 +175,13 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/create/post/{userId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/create/post/{userId}",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"message\": \"This is a test post.\"\r\n}",
+					"raw": "{\r\n    \"message\": \"I love to dunk things!\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -175,29 +189,31 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/create/post/{userId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/create/post/3",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"create",
 						"post",
-						"{userId}"
+						"3"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/create/comment/{userId}/{postId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/create/comment/{userId}/{postId}",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"message\": \"This is a test comment.\"\r\n}",
+					"raw": "{\r\n    \"message\": \"Everybody loves a slam dunk!\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -205,33 +221,37 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/create/comment/{userId}/{postId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/create/comment/2/3",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"create",
 						"comment",
-						"{userId}",
-						"{postId}"
+						"2",
+						"3"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/delete/useraccount/{userId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/delete/useraccount/{userId}",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/delete/useraccount/{userId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/delete/useraccount/{userId}",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"delete",
@@ -243,16 +263,18 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/delete/post/{postId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/delete/post/{postId}",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/delete/post/{postId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/delete/post/{postId}",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"delete",
@@ -264,16 +286,18 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/delete/comment/{commentId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/delete/comment/{commentId}",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/api/delete/comment/{commentId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/delete/comment/{commentId}",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"delete",
@@ -285,7 +309,7 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/update/useraccount/{userId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/update/useraccount/{userId}",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -299,11 +323,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/update/useraccount/{userId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/update/useraccount/{userId}",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"update",
@@ -315,7 +341,7 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/update/post/{postId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/update/post/{postId}",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -329,11 +355,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/update/post/{postId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/update/post/{postId}",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"update",
@@ -345,7 +373,7 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/api/update/comment/{commentId}",
+			"name": "https://noticeboardapplication.herokuapp.com/api/update/comment/{commentId}",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -359,11 +387,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/update/comment/{commentId}",
+					"raw": "https://noticeboardapplication.herokuapp.com/api/update/comment/{commentId}",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"api",
 						"update",

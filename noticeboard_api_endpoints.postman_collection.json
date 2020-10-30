@@ -1,0 +1,379 @@
+{
+	"info": {
+		"_postman_id": "a7b4834a-1a4d-4050-9607-97ff9eafacdc",
+		"name": "noticeboard_api_endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/api/fetch/useraccount/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/fetch/useraccount/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fetch",
+						"useraccount",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/fetch/useraccount/{userId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/fetch/useraccount/{userId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fetch",
+						"useraccount",
+						"{userId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/fetch/post/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/fetch/post/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fetch",
+						"post",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/fetch/post/{postId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/fetch/post/{postId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fetch",
+						"post",
+						"{postId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/fetch/comment/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/fetch/comment/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fetch",
+						"comment",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/fetch/comment/{commentId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/fetch/comment/{commentId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fetch",
+						"comment",
+						"{commentId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/create/useraccount",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"TestUser\",\r\n    \"password\": \"testpassword\",\r\n    \"active\": true,\r\n    \"roles\": \"USER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/create/useraccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"create",
+						"useraccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/create/post/{userId}",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"This is a test post.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/create/post/{userId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"create",
+						"post",
+						"{userId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/create/comment/{userId}/{postId}",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"This is a test comment.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/create/comment/{userId}/{postId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"create",
+						"comment",
+						"{userId}",
+						"{postId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/delete/useraccount/{userId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/delete/useraccount/{userId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"delete",
+						"useraccount",
+						"{userId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/delete/post/{postId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/delete/post/{postId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"delete",
+						"post",
+						"{postId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/delete/comment/{commentId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/delete/comment/{commentId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"delete",
+						"comment",
+						"{commentId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/update/useraccount/{userId}",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Olafss\",\r\n    \"password\": \"Brosss\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/update/useraccount/{userId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"update",
+						"useraccount",
+						"{userId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/update/post/{postId}",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"This is a post message.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/update/post/{postId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"update",
+						"post",
+						"{postId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/api/update/comment/{commentId}",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"This is a comment message.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/update/comment/{commentId}",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"update",
+						"comment",
+						"{commentId}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

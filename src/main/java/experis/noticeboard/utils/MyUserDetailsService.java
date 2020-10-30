@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+//Service used to map userdetails from spring security to client to database
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {

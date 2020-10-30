@@ -9,15 +9,24 @@
 <p>Hello</p>
 
 <a th:href="@{/login}">Log in</a>
+<a th:href="@{/blog}">Blog</a>
 
-<div sec:authorize="hasAnyAuthority('USER','ADMIN')">
-<form method="post" th:action="@{/logout}">
-    <button type="submit">Logout</button>
-</form>
+<!-- Only users get to see the logout option -->
+<div sec:authorize="hasAuthority('USER')">
+    <form method="post" th:action="@{/logout}">
+        <button type="submit">Logout</button>
+    </form>
 </div>
 
+<div th:if="${param.logout}" class="alert alert-success">
+    You have been logged out.
+</div>
+
+<!-- Users get to see their name-->
 <div sec:authorize="hasAuthority('USER')">
     <p>Welcome, <span th:text="${#authentication.getName()}"></span></p>
 </div>
+
+
 </body>
 </html>

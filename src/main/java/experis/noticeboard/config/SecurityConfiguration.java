@@ -25,18 +25,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin").hasAuthority("ADMIN")
-                .antMatchers("/user").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/blog").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/").permitAll()
-                .antMatchers("/api/public/**").permitAll()
-                .and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/")
-                .and().csrf().disable();
+                .antMatchers("/").permitAll() // Makes it possible for anonymous users to view content
+                .and().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/"); // Redirects to home page if logged in successfully
 
         http.logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .addLogoutHandler(new SecurityContextLogoutHandler()).logoutSuccessUrl("/")
-                );
+                .logoutUrl("/logout")
+                .addLogoutHandler(new SecurityContextLogoutHandler()).logoutSuccessUrl("/?logout") // Redirects to a logout url
+        );
+        http.sessionManagement()
+                .maximumSessions(2)
+                .expiredUrl("/?expired") // Redirects to an expired url
+        ;
     }
 
     @Bean

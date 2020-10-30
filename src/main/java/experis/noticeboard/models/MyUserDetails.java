@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//Model class that maps Spring security and database
 public class MyUserDetails implements UserDetails {
 
     private String userName;

@@ -3,9 +3,9 @@ package experis.noticeboard.models;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,10 +31,14 @@ public class Post {
     @ManyToOne
     private UserAccount userAccount;
 
-    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL) 
+    @OneToMany(mappedBy="post", fetch=FetchType.EAGER) 
     private Collection<Comment> comments = new ArrayList<Comment>();
 
     public Post() {
+    }
+
+    public Post(Integer id) {
+        this.id = id;
     }
 
     public Post(String message, UserAccount userAccount) {

@@ -33,6 +33,12 @@ public class Comment {
 
     }
 
+    public Comment(String message, Post post, UserAccount user) {
+        this.message = message;
+        this.post = post;
+        this.userAccount = user;
+    }
+
     public Integer getId() {
         return id;
     }

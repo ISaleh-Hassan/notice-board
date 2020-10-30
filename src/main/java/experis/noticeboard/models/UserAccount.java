@@ -2,6 +2,9 @@ package experis.noticeboard.models;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -15,20 +18,43 @@ import java.util.Collection;
         property = "id")
 public class UserAccount {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public int id;
-    public String userName;
-    public String password;
-    public boolean active;
-    public String roles;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;
 
-    @OneToMany(orphanRemoval = true, cascade= CascadeType.ALL)
+    @Column
+    private String userName;
+    
+    @Column
+    private String password;
+
+    @Column
+    public boolean active;
+
+    @Column
+    public String roles;
+   
+    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER) 
     private Collection<Post> posts = new ArrayList<Post>();
 
-    @OneToMany(orphanRemoval = true, cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="userAccount", fetch=FetchType.EAGER)
     private Collection<Comment> comments = new ArrayList<Comment>();
 
-    public int getId() {
+    public UserAccount() {
+        
+    }
+
+    public UserAccount(Integer id) {
+        this.id = id;
+    }
+
+    public UserAccount(String username, String password, boolean active, String role) {
+        this.userName = username;
+        this.password = password;
+        this.active = active;
+        this.roles = role;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -52,6 +78,22 @@ public class UserAccount {
         this.password = password;
     }
 
+    public Collection<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Collection<Post> posts) {
+        this.posts = posts;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -68,20 +110,5 @@ public class UserAccount {
         this.roles = roles;
     }
 
-    public Collection<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(Collection<Post> posts) {
-        this.posts = posts;
-    }
-
-    public Collection<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Collection<Comment> comments) {
-        this.comments = comments;
-    }
 }
 

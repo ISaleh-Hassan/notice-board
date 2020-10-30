@@ -11,13 +11,20 @@ function getAllUsers() {
 }
 
 
-function createPosts() {
-    fetch('http://localhost:8080/api/create/post', {
+function createPost() {
+    var txtField= document.getElementById("newPostText").value;
+    if(txtField.length<1){
+        alert("You need to write your post first!")
+    }
+    alert("your post is added!")
+
+    fetch('http://localhost:8080/api/create/post/2', {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({id: 4, message: "Everyone disagree with you. ", postId: 2, userAccountId: 3})
+        body: JSON.stringify({message: textField})
+
     })
         .then(response => {return response.json()})
         .catch(error => error= console.log('The Post was not added'));
@@ -92,7 +99,7 @@ function getAllPosts() {
                 if(res.data.length>1){
 
                     for(i=1; i<res.data.length; i++){
-                        console.log(res.data[i])
+
                         getPostById(res.data[i])
 
                     }
@@ -111,16 +118,17 @@ function getAllComments() {
             if(res.status=200){
                 if(res.data.length>0){
 
-                    console.log("All comments",res.data)
+
                     commentWriterId = res.data[0].userAccount;
                     commentText =  res.data[0].message;
                     commentId = "commentId-"+  res.data[0].id.toString();
                     postId =    "postId-"+  res.data[0].post.id.toString();
 
                     addUserInfoToComment(commentWriterId,commentText,commentId,postId);
-
+                    console.log(commentWriterId)
                     if(res.data.length>1){
                         for(i=1; i<res.data.length; i++){
+
                             getCommentById(res.data[i])
 
                         }
@@ -131,6 +139,7 @@ function getAllComments() {
 }
 
 function addUserInfoToComment(userId,commentText,commentId,postId) {
+    console.log(userId)
     return fetch('http://localhost:8080/api/fetch/useraccount/' + userId)
         .then(response =>
             response.json().then(data => ({

@@ -36,6 +36,7 @@ class NoticeboardApplicationTests {
         int id = createATestPerson();
         ResponseEntity<UserAccount> response = uac.getUserById(id); 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        uac.deleteUser(id);
     }
 
     @Test
@@ -50,6 +51,7 @@ class NoticeboardApplicationTests {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("TestPerson", response.getBody().getUserName());
         assertEquals("TestPassword", response.getBody().getPassword());
+        uac.deleteUser(response.getBody().getId());
     }
 
     @Test
@@ -59,6 +61,7 @@ class NoticeboardApplicationTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("UpdatedUser", response.getBody().getUserName());
         assertEquals("UpdatedPassword", response.getBody().getPassword());
+        uac.deleteUser(id);
     }
 
     @Test
@@ -78,6 +81,7 @@ class NoticeboardApplicationTests {
         int postId = createATestPost(userId);
         ResponseEntity<Post> response = pc.getPostById(postId); 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        uac.deleteUser(userId);
     }
 
     @Test
@@ -92,6 +96,7 @@ class NoticeboardApplicationTests {
         ResponseEntity<Post> response = pc.addPost(new Post("This is a test post", uac.getUserById(userId).getBody()), userId);        
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals("This is a test post", response.getBody().getMessage());
+        uac.deleteUser(userId);
     }
 
     @Test
@@ -101,6 +106,7 @@ class NoticeboardApplicationTests {
         ResponseEntity<Post> response = pc.updatePost(new Post("This is a updated post", uac.getUserById(userId).getBody()), postId);   
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("This is a updated post", response.getBody().getMessage());
+        uac.deleteUser(userId);
     }
 
     @Test
@@ -115,6 +121,7 @@ class NoticeboardApplicationTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         response2 = pc.getPostById(postId);
         assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
+        uac.deleteUser(userId);
     }
 
     @Test
@@ -128,6 +135,7 @@ class NoticeboardApplicationTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         response2 = pc.getPostById(postId);
         assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
+        uac.deleteUser(userId);
     }
 
 

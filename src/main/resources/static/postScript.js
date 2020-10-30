@@ -5,14 +5,14 @@ let everyThingUpdated=false;
 let inlogged= false;
 
 function getAllUsers() {
-    fetch('http://localhost:8080/api/fetch/useraccount/all')
+    fetch('http://noticeboardapplication.herokuapp.com/api/fetch/useraccount/all')
         .then(response => response.json())
         .then(data => console.log(data));
 }
 
 
 function createPosts() {
-    fetch('http://localhost:8080/api/create/post', {
+    fetch('http://noticeboardapplication.herokuapp.com/api/create/post', {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json'
@@ -24,14 +24,14 @@ function createPosts() {
 }
 
 function getUserById(id) {
-    return fetch('http://localhost:8080/api/fetch/useraccount/' + id)
+    return fetch('http://noticeboardapplication.herokuapp.com/api/fetch/useraccount/' + id)
         .then(response => response.json())
         .then(data => data);
 }
 
 //TODO:This method don't work yet.
 function updateUser(id) {
-    fetch('http://localhost:8080/api/update/useraccount/' + id, {
+    fetch('http://noticeboardapplication.herokuapp.com/api/update/useraccount/' + id, {
         method: 'Patch',
 
         headers: {
@@ -60,7 +60,7 @@ function updateUser(id) {
 function createComment(userId,commentText,postId) {
     (async () => {
         console.log(userId,postId)
-        const rawResponse = await fetch('http://localhost:8080/api/create/comment/'+userId+'/'+postId, {
+        const rawResponse = await fetch('http://noticeboardapplication.herokuapp.com/api/create/comment/'+userId+'/'+postId, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -75,7 +75,7 @@ function createComment(userId,commentText,postId) {
 }
 
 function getAllPosts() {
-    fetch('http://localhost:8080/api/fetch/post/all').then(response =>
+    fetch('http://noticeboardapplication.herokuapp.com/api/fetch/post/all').then(response =>
         response.json().then(data => ({
                 data: data,
                 status: response.status
@@ -102,7 +102,7 @@ function getAllPosts() {
 }
 
 function getAllComments() {
-    fetch('http://localhost:8080/api/fetch/comment/all').then(response =>
+    fetch('http://noticeboardapplication.herokuapp.com/api/fetch/comment/all').then(response =>
         response.json().then(data => ({
                 data: data,
                 status: response.status
@@ -131,7 +131,7 @@ function getAllComments() {
 }
 
 function addUserInfoToComment(userId,commentText,commentId,postId) {
-    return fetch('http://localhost:8080/api/fetch/useraccount/' + userId)
+    return fetch('http://noticeboardapplication.herokuapp.com/api/fetch/useraccount/' + userId)
         .then(response =>
             response.json().then(data => ({
                     data: data,
@@ -146,7 +146,7 @@ function addUserInfoToComment(userId,commentText,commentId,postId) {
 
 
 function getCommentById(id, commentText,commentId,postId) {
-    fetch('http://localhost:8080/api/fetch/comment/' + id).then(response =>
+    fetch('http://noticeboardapplication.herokuapp.com/api/fetch/comment/' + id).then(response =>
         response.json().then(data => ({
                 data: data,
                 status: response.status
@@ -166,7 +166,7 @@ function getCommentById(id, commentText,commentId,postId) {
 
 function getPostById(id) {
 
-    fetch('http://localhost:8080/api/fetch/post/' + id).then(response =>
+    fetch('http://noticeboardapplication.herokuapp.com/api/fetch/post/' + id).then(response =>
         response.json().then(data => ({
                 data: data,
                 status: response.status
@@ -185,7 +185,7 @@ function getPostById(id) {
 
 //TODO:This method don't work yet.
 function updatePost(id) {
-    fetch('http://localhost:8080/api/update/post/' + id, {
+    fetch('http://noticeboardapplication.herokuapp.com/api/update/post/' + id, {
         method: 'Patch',
 
         headers: {
@@ -198,7 +198,7 @@ function updatePost(id) {
 }
 
 function deletePost(id) {
-    fetch('http://localhost:8080/api/delete/post/' + id, {
+    fetch('http://noticeboardapplication.herokuapp.com/api/delete/post/' + id, {
         method: 'Delete',
     })
 

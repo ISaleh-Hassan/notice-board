@@ -1,7 +1,7 @@
 
 
 function createUser() {
-    fetch('http://localhost:8080/api/create/useraccount', {
+    fetch('http://noticeboardapplication.herokuapp.com/api/create/useraccount', {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json'
@@ -13,19 +13,19 @@ function createUser() {
     }
 
 function getAllUsers() {
-  fetch('http://localhost:8080/api/fetch/useraccount/all')  
+  fetch('http://noticeboardapplication.herokuapp.com/api/fetch/useraccount/all')
   .then(response => response.json())
   .then(data => console.log(data));
   }
 
 function getUserById(id) {
-return fetch('http://localhost:8080/api/fetch/useraccount/' + id)  
+return fetch('http://noticeboardapplication.herokuapp.com/api/fetch/useraccount/' + id)
 .then(response => response.json())
 .then(data => data);
 }
 //TODO:This method don't work yet.
 function updateUser(id) {
-    fetch('http://localhost:8080/api/update/useraccount/' + id, {
+    fetch('http://noticeboardapplication.herokuapp.com/api/update/useraccount/' + id, {
         method: 'Patch',
         
         headers: {
@@ -38,27 +38,27 @@ function updateUser(id) {
     }
 
     function deleteUser(id) {
-        fetch('http://localhost:8080/api/delete/useraccount/' + id, {
+        fetch('http://noticeboardapplication.herokuapp.com/api/delete/useraccount/' + id, {
             method: 'Delete',
         })  
       
         .catch(error => console.log('The User was not deleted'));
         }
 function getAllUsers() {
-  fetch('http://localhost:8080/api/fetch/useraccount/all')  
+  fetch('http://noticeboardapplication.herokuapp.com/api/fetch/useraccount/all')
   .then(response => response.json())
   .then(data => console.log(data));
   }
 
 function getUserById(id) {
-    return fetch('http://localhost:8080/api/fetch/useraccount/' + id)  
+    return fetch('http://noticeboardapplication.herokuapp.com/api/fetch/useraccount/' + id)
     .then(response => response.json())
     .then(data => data);
     }
 
 //TODO:This method don't work yet.
 function updateUser(id) {
-    fetch('http://localhost:8080/api/update/useraccount/' + id, {
+    fetch('http://noticeboardapplication.herokuapp.com/api/update/useraccount/' + id, {
         method: 'Patch',
         
         headers: {
@@ -71,7 +71,7 @@ function updateUser(id) {
     }
 
     function deleteUser(id) {
-        fetch('http://localhost:8080/api/delete/useraccount/' + id, {
+        fetch('http://noticeboardapplication.herokuapp.com/api/delete/useraccount/' + id, {
             method: 'Delete',
         })  
       

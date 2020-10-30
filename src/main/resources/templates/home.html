@@ -44,7 +44,18 @@
   You have been logged out.
 </div>
 
-<main class="main">
+<div sec:authorize="hasAuthority('USER')">
+  <div class="ui form container " >
+    <div class="field">
+      <label>Text</label>
+      <textarea id="newPostText"></textarea>
+      <button type="button" onclick="createPost()" class="btn btn-info m-3">Add post</button>
+    </div>
+</div>
+
+
+
+  <main class="main">
   <div class="allFeed">
 
 

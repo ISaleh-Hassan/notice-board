@@ -1,7 +1,7 @@
 
 
 function createComment() {
-    fetch('http://localhost:8080/api/create/comment', {
+    fetch('http://noticeboardapplication.herokuapp.com/api/create/comment', {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json'
@@ -13,7 +13,7 @@ function createComment() {
     }
 
 function getAllComments() {
-    fetch('http://localhost:8080/api/fetch/comment/all').then(response => 
+    fetch('http://noticeboardapplication.herokuapp.com/api/fetch/comment/all').then(response =>
         response.json().then(data => ({
             data: data,
             status: response.status
@@ -25,13 +25,13 @@ function getAllComments() {
     }));
 }
 function getCommentById(id) {
-return fetch('http://localhost:8080/api/fetch/comment/' + id)  
+return fetch('http://noticeboardapplication.herokuapp.com/api/fetch/comment/' + id)
 .then(response => response.json())
 .then(data => data);
 }
 //TODO:This method don't work yet.
 function updateComment(id) {
-    fetch('http://localhost:8080/api/update/comment/' + id, {
+    fetch('http://noticeboardapplication.herokuapp.com/api/update/comment/' + id, {
         method: 'Patch',
         
         headers: {
@@ -44,7 +44,7 @@ function updateComment(id) {
     }
 
     function deleteComment(id) {
-        fetch('http://localhost:8080/api/delete/comment/' + id, {
+        fetch('http://noticeboardapplication.herokuapp.com/api/delete/comment/' + id, {
             method: 'Delete',
         })  
       

@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "a7b4834a-1a4d-4050-9607-97ff9eafacdc",
+		"name": "noticeboard_api_endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/useraccount/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/useraccount/all",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"fetch",
+						"useraccount",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/useraccount/{userId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/useraccount/{userId}",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"fetch",
+						"useraccount",
+						"{userId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/post/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/post/all",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"fetch",
+						"post",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/post/{postId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/post/all",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"fetch",
+						"post",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/comment/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/comment/all",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"fetch",
+						"comment",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/fetch/comment/{commentId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/fetch/comment/{commentId}",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"fetch",
+						"comment",
+						"{commentId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.comapi/create/useraccount",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"Darius\",\r\n    \"password\": \"dunk\",\r\n    \"active\": true,\r\n    \"roles\": \"USER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/create/useraccount",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"create",
+						"useraccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/create/post/{userId}",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"I love to dunk things!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/create/post/3",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"create",
+						"post",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/create/comment/{userId}/{postId}",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"Everybody loves a slam dunk!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/create/comment/2/3",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"create",
+						"comment",
+						"2",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/delete/useraccount/{userId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/delete/useraccount/{userId}",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"delete",
+						"useraccount",
+						"{userId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/delete/post/{postId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/delete/post/{postId}",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"delete",
+						"post",
+						"{postId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/delete/comment/{commentId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/delete/comment/{commentId}",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"delete",
+						"comment",
+						"{commentId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/update/useraccount/{userId}",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Olafss\",\r\n    \"password\": \"Brosss\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/update/useraccount/{userId}",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"update",
+						"useraccount",
+						"{userId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/update/post/{postId}",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"This is a post message.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/update/post/{postId}",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"update",
+						"post",
+						"{postId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://noticeboardapplication.herokuapp.com/api/update/comment/{commentId}",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"This is a comment message.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://noticeboardapplication.herokuapp.com/api/update/comment/{commentId}",
+					"protocol": "https",
+					"host": [
+						"noticeboardapplication",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"update",
+						"comment",
+						"{commentId}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

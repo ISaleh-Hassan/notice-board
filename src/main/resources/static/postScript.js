@@ -1,40 +1,29 @@
 
-let userInfo;
-let stack=[];
-let everyThingUpdated=false;
-let inlogged= false;
-
-function getAllUsers() {
-    fetch('http://localhost:8080/api/fetch/useraccount/all')
-        .then(response => response.json())
-        .then(data => console.log(data));
-}
-
-
 function createPost() {
-    var txtField= document.getElementById("newPostText").value;
-    if(txtField.length<1){
-        alert("You need to write your post first!")
-    }
-    alert("your post is added!")
+    (async () => {
+        var txtField= document.getElementById("newPostText").value;
+        if(txtField.length>1){
+            const rawResponse = await fetch('http://localhost:8080/api/create/post/1', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"message": txtField})
+            });
+            const content = await rawResponse.json();
+            console.log(content)
 
-    fetch('http://localhost:8080/api/create/post/2', {
-        method: 'Post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({message: textField})
-
-    })
-        .then(response => {return response.json()})
-        .catch(error => error= console.log('The Post was not added'));
+        }
+        else{
+            alert("Please add text to your post!")
+        }
+    })();
+    reloadPage();
 }
 
-function getUserById(id) {
-    return fetch('http://localhost:8080/api/fetch/useraccount/' + id)
-        .then(response => response.json())
-        .then(data => data);
-}
+
+
 
 //TODO:This method don't work yet.
 function updateUser(id) {
@@ -50,23 +39,9 @@ function updateUser(id) {
         .catch(error => console.log('Error to update User'));
 }
 
-//commentId ska läggas till
-// function createComment(userId,commentText,postId) {
-//     fetch('http://localhost:8080/api/create/comment/'+userId+'/'+postId, {
-//         method: 'Post',
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({message: commentText})
-//     })
-//     .then(response => {return response.json()})
-//     .catch(error => error= console.log('The Post was not added'));
-//     }
-
 function createComment(userId,commentText,postId) {
     (async () => {
-        console.log(userId,postId)
+
         const rawResponse = await fetch('http://localhost:8080/api/create/comment/'+userId+'/'+postId, {
             method: 'POST',
             headers: {
@@ -75,136 +50,160 @@ function createComment(userId,commentText,postId) {
             },
             body: JSON.stringify({"message": commentText})
         });
-        const content = await rawResponse.json();
-
-        console.log(content);
     })();
+    reloadPage();
 }
+
+
+function updatePost(postId,newPostText) {
+    debugger;
+    (async () => {
+
+        const rawResponse = await fetch('http://localhost:8080/api/update/post/'+postId, {
+            method: 'Patch',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"message": newPostText})
+        });
+    })();
+    reloadPage();
+}
+
 
 function getAllPosts() {
-    fetch('http://localhost:8080/api/fetch/post/all').then(response =>
-        response.json().then(data => ({
-                data: data,
-                status: response.status
-            })
-        ).then(res => {
-            if(res.status=200){
-                postWriter = res.data[0].userAccount.userName;
-                postText =  res.data[0].message;
-                postId = "postId-"+  res.data[0].id.toString();
 
+    (async () => {
 
+        const rawResponse = await fetch('http://localhost:8080/api/fetch/post/all', {
+            method: 'Get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
 
-                loadAllPosts(postWriter,postText,postId);
-                if(res.data.length>1){
+        });
+        const content = await rawResponse.json();
 
-                    for(i=1; i<res.data.length; i++){
+        //I need to add the key of all comments in a list out side the loop
+        if(content.length>0){
+            for(i=0; i<content.length; i++){
+                if (isObject(content[i])==true){
+                    postWriter = content[i].userAccount.userName;
+                    postText =  content[i].message;
+                    postId = "postId-"+  content[i].id.toString();
+                    loadAllPosts(postWriter,postText,postId)
+                    if(content[i].comments.length>0){
+                        comments = removeDuplicates(content[i].comments);
+                        console.log("There is "+ content[i].comments.length + " comments on this post number " + postId )
 
-                        getPostById(res.data[i])
-
-                    }
-                }
-            }
-        }));
-}
-
-function getAllComments() {
-    fetch('http://localhost:8080/api/fetch/comment/all').then(response =>
-        response.json().then(data => ({
-                data: data,
-                status: response.status
-            })
-        ).then(res => {
-            if(res.status=200){
-                if(res.data.length>0){
-
-
-                    commentWriterId = res.data[0].userAccount;
-                    commentText =  res.data[0].message;
-                    commentId = "commentId-"+  res.data[0].id.toString();
-                    postId =    "postId-"+  res.data[0].post.id.toString();
-
-                    addUserInfoToComment(commentWriterId,commentText,commentId,postId);
-                    console.log(commentWriterId)
-                    if(res.data.length>1){
-                        for(i=1; i<res.data.length; i++){
-
-                            getCommentById(res.data[i])
+                        for(j=0; j<comments.length; j++){
+                            getCommentById(comments[j],postId)
 
                         }
                     }
                 }
-            }
-        }));
-}
-
-function addUserInfoToComment(userId,commentText,commentId,postId) {
-    console.log(userId)
-    return fetch('http://localhost:8080/api/fetch/useraccount/' + userId)
-        .then(response =>
-            response.json().then(data => ({
-                    data: data,
-                    status: response.status
-                })
-            ).then(res => {
-                if(res.status=200){
-                    loadAllComments(res.data.userName,commentText,commentId,postId)
+                else{
+                    getPostById(content[i])
                 }
-            }));
-}
-
-
-function getCommentById(id, commentText,commentId,postId) {
-    fetch('http://localhost:8080/api/fetch/comment/' + id).then(response =>
-        response.json().then(data => ({
-                data: data,
-                status: response.status
-            })
-        ).then(res => {
-            if(res.status=200){
-                commentWriterId = res.data.userAccount;
-                commentText =  res.data.message;
-                commentId = "commentId-"+  res.data.id.toString();
-                postId =    "postId-"+  res.data.post.id.toString();
-
-                addUserInfoToComment(commentWriterId,commentText,commentId,postId);
             }
-        }));
+        }
+    })();
 }
 
+function removeDuplicates(array) {
+    return array.filter((a, b) => array.indexOf(a) === b)
+};
+
+
+function getCommentById(id,postDivId) {
+
+    (async () => {
+
+        const rawResponse = await fetch('http://localhost:8080/api/fetch/comment/' + id, {
+            method: 'Get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+
+        });
+        const content = await rawResponse.json();
+
+        useraccountId = content.userAccount;
+        commentText =  content.message;
+        commentId = "commentId-"+  content.id.toString();
+        postId =   postDivId
+
+        console.log(useraccountId,commentText,commentId,postId)
+        addUserInfoToComment(useraccountId,commentText,commentId,postId)
+
+    })();
+}
+
+
+function addUserInfoToComment(useraccountId,commentText,commentId,postId) {
+
+    (async () => {
+
+        const rawResponse = await fetch('http://localhost:8080/api/fetch/useraccount/' + useraccountId, {
+            method: 'Get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+
+        });
+        const content = await rawResponse.json();
+
+        commentWriterName = content.userName;
+        loadAllComments(commentWriterName,commentText,commentId,postId)
+    })();
+}
+function isObject(val) {
+    if (val === null) { return false;}
+    return ( (typeof val === 'function') || (typeof val === 'object') );
+}
 
 function getPostById(id) {
 
-    fetch('http://localhost:8080/api/fetch/post/' + id).then(response =>
-        response.json().then(data => ({
-                data: data,
-                status: response.status
-            })
-        ).then(res => {
-            if(res.status=200){
-                postWriter = res.data.userAccount.userName;
-                postText =  res.data.message;
-                postId = "postId-"+  res.data.id.toString();
+    (async () => {
 
-                console.log(postWriter,postText,postId)
-                loadAllPosts(postWriter,postText,postId);
+        const rawResponse = await fetch('http://localhost:8080/api/fetch/post/' + id, {
+            method: 'Get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
-        }));
+        });
+        const content = await rawResponse.json();
+        if (isObject(content)==true){
+
+            postWriter = content.userAccount.userName;
+            postText =  content.message;
+            postId = "postId-"+  content.id.toString();
+            loadAllPosts(postWriter,postText,postId)
+            if(content.comments.length>0){
+                comments = removeDuplicates(content.comments);
+                console.log("There is "+ comments.length + " comments on this post number " + postId , content )
+
+                for(j=0; j<comments.length; j++){
+                    if(isObject(comments[j])==true){
+                        commentId = "commentId-"+  content.toString();
+                        getCommentById(comments[j],postId)
+                    }
+                    else{
+                        getCommentById(comments[j],postId)
+                    }
+
+                }
+            }
+        }
+
+    })();
 }
 
-//TODO:This method don't work yet.
-function updatePost(id) {
-    fetch('http://localhost:8080/api/update/post/' + id, {
-        method: 'Patch',
-
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({message: "This is not my upinions"})
-    })
-        .then(response => {return response.json()})
-        .catch(error => console.log('Error to update Post'));
-}
 
 function deletePost(id) {
     fetch('http://localhost:8080/api/delete/post/' + id, {
@@ -253,7 +252,32 @@ function addPostElement (author,text,post_id,autor_inlogged) {
         trashIcon.onclick = function() {
             var postToDeleteId= splitId(post_id);
             deletePost(postToDeleteId);
-            getAllPosts();
+            reloadPage();
+        };
+
+        editIcon.onclick = function() {
+            var postToEdit= splitId(post_id);
+            var txtArea = document.createElement("TEXTAREA");
+
+            txtArea.style.width = "500px";
+            txtArea.id = "editedPostText"
+            var editPostBtn = document.createElement("button");
+            editPostBtn.classList.add("btn", "btn-info","m-3");
+            editPostBtn.innerHTML="Edit";
+
+            editIcon.remove();
+            trashIcon.remove();
+            postText.remove();
+            $(txtArea).insertAfter( $(postAuthor ));
+            $(editPostBtn).insertAfter( $("#editedPostText"));
+
+            $(editPostBtn).button().click(function(){
+                txtArea.innerText= txtArea.value;
+                updatePost(postToEdit,txtArea.value);
+
+            });
+
+
         };
     }
     return newPost;
@@ -339,16 +363,16 @@ function loadingSpinner(start=false){
 
 function loadAllPosts(author,text,postId) {
     var postText = addPostElement(author,text,postId,true);
-    stack.push(postText)
 
-    $(".allFeed").append(postText);
+
+    $( postText ).insertAfter( $(".allFeed" ) );
 
     var posts = document.getElementById(postId)
     posts.append(addCommentInputField(true,postId))
 };
 
-function loadAllComments(author,text,commentId,postId,username) {
-    var commentText = addCommentElement(author,text,commentId,postId,username);
+function loadAllComments(author,text,commentId,postId) {
+    var commentText = addCommentElement(author,text,commentId,postId);
     var posts = document.getElementById(postId)
 
     posts.appendChild(commentText);
@@ -360,7 +384,7 @@ function addComment(postId){
     inputElementId = postId + "-comment-input"
     var commentTxt = document.getElementById(inputElementId).value;
     if(commentTxt.length>1){
-        createComment(12,commentTxt,post);
+        createComment(1,commentTxt,post);
 
     }
     else{
@@ -372,9 +396,11 @@ function addComment(postId){
 function runLoadingSpinner(){
 
 }
+function reloadPage(){
+    location.reload(true);
+}
 
 window.onload = function() {
     getAllPosts()
-    getAllComments();
-
 };
+

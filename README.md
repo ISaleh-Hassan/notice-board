@@ -16,6 +16,9 @@ Visit the site through: https://noticeboardapplication.herokuapp.com/
 2. Open the project in your preferred IDE
 3. Run the project from the main class
 
+# Usage:
+![](notice-board.gif)
+
 # Authors
 Hampus Olsson
 Saleh Hassan

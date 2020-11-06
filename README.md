@@ -10,6 +10,8 @@ user authentication.
 
 Visit the site through: https://noticeboardapplication.herokuapp.com/
 
+* all the backend, api, urls work with postman but unfortunately the frontend part does not work as it is intended to. 
+
 # Installation
 
 1. Clone the repo from https://github.com/ISaleh-Hassan/notice-board
